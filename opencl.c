@@ -1,5 +1,9 @@
+#include <malloc.h>
+#include <stdio.h>
+#include <CL/opencl.h>
 
-#define MAX_SOURCE_SIZE = (0x100000)
+
+#define MAX_SOURCE_SIZE (0x100000)
 
 float f_a[50000], f_b[50000], f_c[50000], cl_c[50000];
 
@@ -35,12 +39,13 @@ int main() {
   cl_platform_id *platform_ids;
 
   cl_func_result = clGetPlatformIDs(0, 0, &ret_num_platforms);
-  platform_ids = (cl_platform_id*)malloc(sizeof(cl_platform_id) * re_num_platforms);
+  platform_ids = (cl_platform_id*)malloc(sizeof(cl_platform_id) * ret_num_platforms);
   cl_func_result = clGetPlatformIDs(ret_num_platforms, platform_ids, NULL);
   
   cl_device_id device_id;
   cl_context context;
   cl_int errcode;
+  cl_kernel kernel;
   cl_command_queue command_queue;
   cl_program program;
   cl_mem mem_a, mem_b, mem_c;
@@ -55,7 +60,7 @@ int main() {
     //can get device info from clGetDeviceInfo functions
     //https://registry.khronos.org/OpenCL/sdk/3.0/docs/man/html/
     
-    context = clCreateContext(NULL, 1, &device, NULL, NULL, &errcode);
+    context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &errcode);
     command_queue = clCreateCommandQueue(context, device_id, 0, NULL);
     program = clCreateProgramWithSource(context, 1, (const char**)&source_str, (const size_t*)&source_size, &errcode);
     
