@@ -79,9 +79,10 @@ int main() {
     size_t globalworksize = 50000;
     size_t localworksize = 1;
     
-    //cl_event event;
-    cl_func_result = clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &globalworksize, &localworksize, 0, 0, 0);
-    clFinish(command_queue); //blocking
+    cl_event event;
+    cl_func_result = clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL, &globalworksize, &localworksize, 0, 0, &event);
+    //clFinish(command_queue); //blocking
+    cl_func_result = clWaitForEvents(1, &event);
     cl_func_result = clEnqueueReadBuffer(command_queue, mem_c, CL_TRUE, 0, 50000 * sizeof(float), cl_c, 0, 0, 0);
 
     printf("%f, %f\n", f_c[1234], cl_c[1234]);
