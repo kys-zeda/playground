@@ -65,7 +65,7 @@ int main() {
     cl_func_result = clEnqueueWriteBuffer(command_queue, mem_a, CL_TRUE, 0, 50000 * sizeof(float), f_a, 0, 0, 0);
     cl_func_result = clEnqueueWriteBuffer(command_queue, mem_b, CL_TRUE, 0, 50000 * sizeof(float), f_b, 0, 0, 0);
     
-    kernel = clCreateKernel(program, "add_opencl", &errcode);
+    kernel = clCreateKernel(program, "func_opencl", &errcode);
     cl_func_result = clSetKernelArg(kernel, 0, sizeof(cl_mem), &mem_a);
     cl_func_result = clSetKernelArg(kernel, 1, sizeof(cl_mem), &mem_b);
     cl_func_result = clSetKernelArg(kernel, 2, sizeof(cl_mem), &mem_c);
@@ -84,8 +84,8 @@ int main() {
     cl_func_result = clReleaseKernel(kernel);    
     cl_func_result = clReleaseProgram(program);  
     cl_func_result = clReleaseMemObject(mem_a);
-	  cl_func_result = clReleaseMemObject(mem_b);
-	  cl_func_result = clReleaseMemObject(mem_c);
+    cl_func_result = clReleaseMemObject(mem_b);
+    cl_func_result = clReleaseMemObject(mem_c);
     cl_func_result = clReleaseCommandQueue(command_queue);
     cl_func_result = clReleaseContext(context);
   }
